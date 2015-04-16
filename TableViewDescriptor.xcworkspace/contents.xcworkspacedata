@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:VSTableViewDescriptor"
+      name = "VSTableViewDescriptor">
+      <FileRef
+         location = "group:VSCellDescriptor.h">
+      </FileRef>
+      <FileRef
+         location = "group:VSCellDescriptor.m">
+      </FileRef>
+      <FileRef
+         location = "group:VSSectionDescriptor.h">
+      </FileRef>
+      <FileRef
+         location = "group:VSSectionDescriptor.m">
+      </FileRef>
+      <FileRef
+         location = "group:VSTableViewDescriptor.h">
+      </FileRef>
+      <FileRef
+         location = "group:VSTableViewDescriptor.m">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "container:TableViewDescriptorExample/TableViewDescriptorExample.xcodeproj">
+   </FileRef>
+</Workspace>
