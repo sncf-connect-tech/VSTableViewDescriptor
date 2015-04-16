@@ -9,12 +9,12 @@
 
 Pod::Spec.new do |s|
   s.name             = "TableViewDescriptor"
-  s.version          = "1.0"
+  s.version          = "1.0.1"
   s.summary          = "Simplify Table view delegation via blocks."
   s.homepage         = "http://gitlab.socrate.vsct.fr/dwm-mobile/TableDescriptorIOS"
   s.license          = 'MIT'
   s.author           = { "GWENN GUIHAL" => "gguihal@voyages-sncf.com" }
-  s.source           = { :git => "http://gitlab.socrate.vsct.fr/dwm-mobile/PodspecsIOS.git", :tag => 1.0 }
+  s.source           = { :git => "http://gitlab.socrate.vsct.fr/dwm-mobile/PodspecsIOS.git", :tag => 1.0.1 }
 
 
   s.platform     = :ios, '6.0'
