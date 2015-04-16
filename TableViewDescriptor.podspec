@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint GGLocalizationSystem.podspec' to ensure this is a
+# Be sure to run `pod lib lint TableViewDescriptor.podspec' to ensure this is a
 # valid spec and remove all comments before submitting the spec.
 #
 # Any lines starting with a # are optional, but encouraged
@@ -11,14 +11,14 @@ Pod::Spec.new do |s|
   s.name             = "TableViewDescriptor"
   s.version          = "1.0"
   s.summary          = "Simplify Table view delegation via blocks."
-  s.homepage         = "https://github.com/myrddinus/GGLocalizationSystem"
+  s.homepage         = "http://gitlab.socrate.vsct.fr/dwm-mobile/TableDescriptorIOS"
   s.license          = 'MIT'
   s.author           = { "GWENN GUIHAL" => "gguihal@voyages-sncf.com" }
-  s.source           = { :git => "https://github.com/myrddinus/GGLocalizationSystem.git", :tag => 1.0 }
-  #s.social_media_url = 'https://twitter.com/_myrddin_'
+  s.source           = { :git => "git@gitlab.socrate.vsct.fr:dwm-mobile/TableDescriptorIOS.git", :tag => 1.0 }
+
 
   s.platform     = :ios, '6.0'
   s.requires_arc = true
 
-  s.source_files = 'TableViewDescriptor'
+  s.source_files = 'VSTableViewDescriptor'
 end
