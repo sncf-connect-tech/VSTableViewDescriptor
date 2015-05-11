@@ -50,7 +50,8 @@
                                             } select:^(UITableView* tableView, NSIndexPath *indexPath)
                                             {
                                                 UITableViewCell* cell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                                                [weakSelf performSegueWithIdentifier:@"DetailSegue" sender:cell];
+                                                [weakSelf goToDetail:cell];
+
                                             }];
         [cellDescriptor setWillDisplayBlock:^(UITableView* tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
             NSLog(@"willDisplayBlock");
@@ -79,6 +80,11 @@
 }
 
 #pragma mark - Navigation
+
+- (void)goToDetail:(UITableViewCell*)sender
+{
+    [self performSegueWithIdentifier:@"DetailSegue" sender:sender];
+}
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
