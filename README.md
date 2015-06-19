@@ -43,7 +43,7 @@ for (ModelElelemnt* element in self.myModel)
 {
     VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
     {
-        return [VSSentenceCellViewTableViewCell heightWithSentence:sentenceVO.sentence];
+        return [VSSentenceCellViewTableViewCell heightWithSentence:element.sentence];
     } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
     {
         VSSentenceCellViewTableViewCell* cell = (VSCellViewTableViewCell*)[weakSelf.tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
