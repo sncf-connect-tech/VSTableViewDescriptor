@@ -43,8 +43,26 @@
     
     XCTAssertNotNil(sectionDescriptor,@"sectionDescriptor shouldn't be nil");
     
-    XCTAssertTrue(sectionDescriptor.heightHeaderBlock(nil,0) == 40,@"sectionDescriptor heightBlock should be 40");
-    XCTAssertTrue(sectionDescriptor.configureHeaderBlock(nil,0) != nil,@"sectionDescriptor heightBlock shouldn't be nil");
+    XCTAssertTrue(sectionDescriptor.heightHeaderBlock(nil,0) == 40,@"sectionDescriptor heightHeaderBlock should be 40");
+    XCTAssertTrue(sectionDescriptor.configureHeaderBlock(nil,0) != nil,@"sectionDescriptor configureHeaderBlock shouldn't be nil");
+}
+
+- (void)testAddOneFooterViewSection
+{
+    VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initFooterSectionWithHeight:^CGFloat(UITableView *tableView, int section) {
+        return 40;
+    } configure:^UIView *(UITableView *tableView, int section) {
+        return [[UIView alloc] initWithFrame:CGRectZero];
+    }];
+    [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
+    
+    sectionDescriptor = nil;
+    sectionDescriptor = self.tableViewDescriptor.sectionDescriptors[0];
+    
+    XCTAssertNotNil(sectionDescriptor,@"sectionDescriptor shouldn't be nil");
+    
+    XCTAssertTrue(sectionDescriptor.heightFooterBlock(nil,0) == 40,@"sectionDescriptor heightFooterBlock should be 40");
+    XCTAssertTrue(sectionDescriptor.configureFooterBlock(nil,0) != nil,@"sectionDescriptor configureFooterBlock shouldn't be nil");
 }
 
 - (void)testAddOneHeaderViewAndFooterViewSection
@@ -86,6 +104,21 @@
     
     XCTAssertNotNil(sectionDescriptor,@"sectionDescriptor shouldn't be nil");
     XCTAssertTrue([sectionDescriptor.titleHeaderBlock(nil,0) isEqualToString:@"header title"],@"sectionDescriptor titleHeaderBlock should be 'header title'");
+}
+
+- (void)testAddOneFooterTitleSection
+{
+    VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initFooterSectionWithTitle:^NSString *(UITableView *tableView, int section) {
+            return @"footer title";
+    }];
+    
+    [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
+    
+    sectionDescriptor = nil;
+    sectionDescriptor = self.tableViewDescriptor.sectionDescriptors[0];
+    
+    XCTAssertNotNil(sectionDescriptor,@"sectionDescriptor shouldn't be nil");
+    XCTAssertTrue([sectionDescriptor.titleFooterBlock(nil,0) isEqualToString:@"footer title"],@"sectionDescriptor titleFooterBlock should be 'footer title'");
 }
 
 - (void)testAddOneHeaderTitleAndFooterTitleSection

@@ -28,6 +28,12 @@
     return self;
 }
 
+-(id) initFooterSectionWithHeight:(SectionFooterHeightBlock)heightFooterBlock configure:(SectionFooterConfigureBlock)configureFooterBlock;
+{
+    self = [self initHeaderSectionWithHeight:nil configure:nil andFooterSectionWithHeight:heightFooterBlock configure:configureFooterBlock];
+    return self;
+}
+
 -(id)initHeaderSectionWithHeight:(SectionHeaderHeightBlock)heightHeaderBlock configure:(SectionHeaderConfigureBlock)configureHeaderBlock andFooterSectionWithHeight:(SectionFooterHeightBlock)heightFooterBlock configure:(SectionFooterConfigureBlock)configureFooterBlock
 {
     self = [self init];
@@ -47,6 +53,13 @@
     self = [self initHeaderSectionWithTitle:titleHeaderBlock andFooterSectionWithTitle:nil];
     return self;
 }
+
+-(id) initFooterSectionWithTitle:(SectionFooterTitleBlock)titleFooterBlock
+{
+    self = [self initHeaderSectionWithTitle:nil andFooterSectionWithTitle:titleFooterBlock];
+    return self;
+}
+
 -(id) initHeaderSectionWithTitle:(SectionHeaderTitleBlock)titleHeaderBlock andFooterSectionWithTitle:(SectionFooterTitleBlock)titleFooterBlock
 {
     self = [self init];

@@ -34,10 +34,14 @@ typedef NSString* (^SectionFooterTitleBlock)(UITableView* tableView, int section
 -(id) initEmpty;
 // custome view
 -(id) initHeaderSectionWithHeight:(SectionHeaderHeightBlock)heightHeaderBlock configure:(SectionHeaderConfigureBlock)configureHeaderBlock;
+-(id) initFooterSectionWithHeight:(SectionFooterHeightBlock)heightFooterBlock configure:(SectionFooterConfigureBlock)configureFooterBlock;
 -(id) initHeaderSectionWithHeight:(SectionHeaderHeightBlock)heightHeaderBlock configure:(SectionHeaderConfigureBlock)configureHeaderBlock andFooterSectionWithHeight:(SectionFooterHeightBlock)heightFooterBlock configure:(SectionFooterConfigureBlock)configureFooterBlock;
 // default view (only label)
 -(id) initHeaderSectionWithTitle:(SectionHeaderTitleBlock)titleHeaderBlock;
+-(id) initFooterSectionWithTitle:(SectionFooterTitleBlock)titleFooterBlock;
 -(id) initHeaderSectionWithTitle:(SectionHeaderTitleBlock)titleHeaderBlock andFooterSectionWithTitle:(SectionFooterTitleBlock)titleFooterBlock;
+
+
 
 -(void)addCellDescriptor:(VSCellDescriptor*)cellDescriptor;
 

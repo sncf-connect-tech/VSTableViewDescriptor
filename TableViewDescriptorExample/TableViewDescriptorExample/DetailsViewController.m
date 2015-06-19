@@ -16,9 +16,13 @@
 @property (nonatomic,strong) NSArray* mockModel;
 @property (nonatomic,strong) VSTableViewDescriptor* tableViewDescriptor;
 
--(void)configureCellsFromModel;
+-(void)setupTableView;
 -(void)addOneMoreCell:(BOOL)animated;
 -(void)removeCell:(NSIndexPath*) indexPath animated:(BOOL)animated;
+
+-(VSSectionDescriptor*)addMainSection;
+-(void)addCell:(SentenceVO*)sentenceVO section:(VSSectionDescriptor*)sectionDescriptor;
+-(void)addFooterSection;
 
 @end
 
@@ -40,34 +44,54 @@
                                                       color:[UIColor grayColor]]
     ];
     
-    [self configureCellsFromModel];
+    [self setupTableView];
 }
 
 static NSString* const kSentenceCellIdentifier = @"SentenceCell";
 
--(void)configureCellsFromModel
+-(void)setupTableView
 {
-    __weak typeof(self) weakSelf = self;
-    
     // register cells
     UINib* nib = [UINib nibWithNibName:@"VSSentenceCellViewTableViewCell" bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:kSentenceCellIdentifier];
     
-    // table descriptor
+    // create table descriptor
     self.tableViewDescriptor = [[VSTableViewDescriptor alloc] init];
     
-    // section
+    // add main section
+    VSSectionDescriptor* sectionDescriptor = [self addMainSection];
+    
+    // add cells in main section
+    for (SentenceVO* sentenceVO in self.mockModel)
+    {
+        [self addCell:sentenceVO section:sectionDescriptor];
+    }
+    
+    // add footer section
+    [self addFooterSection];
+    
+    // configure tableview, delegate and datasource is tableViewDescriptor
+    self.tableView.delegate = self.tableViewDescriptor;
+    self.tableView.dataSource = self.tableViewDescriptor;
+}
+
+#pragma mark - TableView
+
+-(VSSectionDescriptor*)addMainSection
+{
+    __weak typeof(self) weakSelf = self; // important, use weak self in block
+    
     VSSectionDescriptor* sectionDescriptor = nil;
     if (self.customSection) // uiviewSection
     {
         sectionDescriptor = [[VSSectionDescriptor alloc] initHeaderSectionWithHeight:^CGFloat(UITableView* tableView, int section)
-        {
-            return 40;
-            
-        } configure:^UIView *(UITableView* tableView, int section)
-        {
-            return [[NSBundle mainBundle] loadNibNamed:@"SectionView" owner:weakSelf options:nil][0];
-        }];
+                             {
+                                 return 40;
+                                 
+                             } configure:^UIView *(UITableView* tableView, int section)
+                             {
+                                 return [[NSBundle mainBundle] loadNibNamed:@"SectionView" owner:weakSelf options:nil][0];
+                             }];
     }
     else // simple title Section
     {
@@ -76,42 +100,13 @@ static NSString* const kSentenceCellIdentifier = @"SentenceCell";
                                  return @"Le Corbeau et le Renard";
                              }];
     }
-    
-    
-    // add cells in first section
-    for (SentenceVO* sentenceVO in self.mockModel)
-    {
-        VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
-        {
-            return [VSSentenceCellViewTableViewCell heightWithSentence:sentenceVO.sentence];
-        
-        } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
-        {
-            VSSentenceCellViewTableViewCell* cell = (VSSentenceCellViewTableViewCell*)[weakSelf.tableView dequeueReusableCellWithIdentifier:kSentenceCellIdentifier forIndexPath:indexPath];
-            [cell configureWithSentenceVO:sentenceVO];
-            return cell;
-            
-        } select:^(UITableView* tableView, NSIndexPath *indexPath)
-        {
-            [weakSelf addOneMoreCell:YES];
-        }];
-        
-        [sectionDescriptor addCellDescriptor:cellDescriptor];
-    }
     [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
-    
-    // configure tableview
-    self.tableView.delegate = self.tableViewDescriptor;
-    self.tableView.dataSource = self.tableViewDescriptor;
+    return sectionDescriptor;
 }
 
-#pragma mark - Add or Remove Cell
-
--(void)addOneMoreCell:(BOOL)animated
+-(void)addCell:(SentenceVO*)sentenceVO section:(VSSectionDescriptor*)sectionDescriptor
 {
-    __weak typeof(self) weakSelf = self;
-    
-    SentenceVO* sentenceVO = [[SentenceVO alloc] initWithSentence:@"La fable est terminée" color:[UIColor orangeColor]];
+    __weak typeof(self) weakSelf = self; // important, use weak self in block
     
     VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
                                         {
@@ -119,17 +114,44 @@ static NSString* const kSentenceCellIdentifier = @"SentenceCell";
                                             
                                         } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
                                         {
-                                            VSSentenceCellViewTableViewCell* cell = (VSSentenceCellViewTableViewCell*)[tableView dequeueReusableCellWithIdentifier:kSentenceCellIdentifier forIndexPath:indexPath];
+                                            VSSentenceCellViewTableViewCell* cell = (VSSentenceCellViewTableViewCell*)[weakSelf.tableView dequeueReusableCellWithIdentifier:kSentenceCellIdentifier forIndexPath:indexPath];
                                             [cell configureWithSentenceVO:sentenceVO];
                                             return cell;
                                             
                                         } select:^(UITableView* tableView, NSIndexPath *indexPath)
                                         {
-                                            [weakSelf removeCell:indexPath animated:YES];
+                                            [weakSelf addOneMoreCell:YES];
                                         }];
     
-    VSSectionDescriptor* sectionDescriptor = self.tableViewDescriptor.sectionDescriptors[0];
     [sectionDescriptor addCellDescriptor:cellDescriptor];
+}
+
+-(void)addFooterSection
+{
+    __weak typeof(self) weakSelf = self; // important, use weak self in block
+    // footer section
+    if (self.customSection) // uiviewSection
+    {
+        VSSectionDescriptor* footerSectionDescriptor = [[VSSectionDescriptor alloc] initFooterSectionWithHeight:^CGFloat(UITableView *tableView, int section)
+                                                        {
+                                                            return 40;
+                                                            
+                                                        } configure:^UIView *(UITableView* tableView, int section)
+                                                        {
+                                                            return [[NSBundle mainBundle] loadNibNamed:@"SectionView" owner:weakSelf options:nil][0];
+                                                        }];
+        [self.tableViewDescriptor addSectionDescriptor:footerSectionDescriptor];
+    }
+}
+
+#pragma mark - Add or Remove Cell
+
+-(void)addOneMoreCell:(BOOL)animated
+{
+    SentenceVO* sentenceVO = [[SentenceVO alloc] initWithSentence:@"La fable est terminée" color:[UIColor orangeColor]];
+
+    VSSectionDescriptor* sectionDescriptor = self.tableViewDescriptor.sectionDescriptors[0];
+    [self addCell:sentenceVO section:sectionDescriptor];
     
     if (!animated)
     {
@@ -138,10 +160,11 @@ static NSString* const kSentenceCellIdentifier = @"SentenceCell";
     else
     {
         NSMutableArray *insertIndexPaths = [NSMutableArray arrayWithCapacity:1];
-        [insertIndexPaths addObject: [NSIndexPath indexPathForRow:[sectionDescriptor.cellDescriptors count] - 1 inSection:0] ];
+        int row = (int)[sectionDescriptor.cellDescriptors count] - 1;
+        [insertIndexPaths addObject: [NSIndexPath indexPathForRow:row inSection:0] ];
         
         [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView endUpdates];
         
         [self.tableView scrollToRowAtIndexPath:insertIndexPaths[0]

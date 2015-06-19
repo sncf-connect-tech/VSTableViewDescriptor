@@ -25,8 +25,6 @@
 {
     [super viewDidLoad];
     
-    __weak typeof(self) weakSelf = self;
-    
     // table descriptor
     self.tableViewDescriptor = [[VSTableViewDescriptor alloc] init];
     
@@ -36,28 +34,7 @@
     NSArray* cells = @[@"Custom Section",@"Simple Section"];
     for (NSString* cellText in cells)
     {
-        VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
-                                            {
-                                                return 44;
-                                                
-                                            } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
-                                            {
-                                                UITableViewCell* cell = [weakSelf.tableView dequeueReusableCellWithIdentifier:@"StandartCell" forIndexPath:indexPath];
-                                                cell.tag = indexPath.row;
-                                                cell.textLabel.text = cellText;
-                                                return cell;
-                                                
-                                            } select:^(UITableView* tableView, NSIndexPath *indexPath)
-                                            {
-                                                UITableViewCell* cell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
-                                                [weakSelf goToDetail:cell];
-
-                                            }];
-        [cellDescriptor setWillDisplayBlock:^(UITableView* tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
-            NSLog(@"willDisplayBlock");
-        }];
-        
-        [sectionDescriptor addCellDescriptor:cellDescriptor];
+        [self addCell:cellText section:sectionDescriptor];
     }
     [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
     
@@ -67,6 +44,33 @@
     // configure tableview
     self.tableView.delegate = self.tableViewDescriptor;
     self.tableView.dataSource = self.tableViewDescriptor;
+}
+
+-(void) addCell:(NSString*)cellText section:(VSSectionDescriptor*)sectionDescriptor
+{
+    __weak typeof(self) weakSelf = self;
+    VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
+                                        {
+                                            return 44;
+                                            
+                                        } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
+                                        {
+                                            UITableViewCell* cell = [weakSelf.tableView dequeueReusableCellWithIdentifier:@"StandartCell" forIndexPath:indexPath];
+                                            cell.tag = indexPath.row;
+                                            cell.textLabel.text = cellText;
+                                            return cell;
+                                            
+                                        } select:^(UITableView* tableView, NSIndexPath *indexPath)
+                                        {
+                                            UITableViewCell* cell = [weakSelf.tableView cellForRowAtIndexPath:indexPath];
+                                            [weakSelf goToDetail:cell];
+                                            
+                                        }];
+    [cellDescriptor setWillDisplayBlock:^(UITableView* tableView, UITableViewCell *cell, NSIndexPath *indexPath) {
+        NSLog(@"willDisplayBlock");
+    }];
+    
+    [sectionDescriptor addCellDescriptor:cellDescriptor];
 }
 
 - (void)didReceiveMemoryWarning {

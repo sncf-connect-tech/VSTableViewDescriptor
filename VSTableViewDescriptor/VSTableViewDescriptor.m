@@ -10,6 +10,9 @@
 #import <objc/runtime.h>
 
 @interface VSTableViewDescriptor ()
+{
+    NSMutableSet* _warningsSelectors; // save the selector in this array if a warning is fired, avoid a wanrning to be repeated
+}
 
 @end
 
@@ -22,6 +25,7 @@
     self = [super init];
     if (self)
     {
+        _warningsSelectors = [NSMutableSet set];
         _sectionDescriptors = [NSMutableArray array]; //TODO: add optionnal capacity
     }
     return self;
@@ -244,7 +248,12 @@
 -(void)warningOverrides:(id)sender selector:(SEL)selector
 {
 #ifdef DEBUG
-    NSLog(@"WARNING : %@ overrides %@::%@",[sender class],[self class],NSStringFromSelector(selector));
+    NSString* stringSelector = NSStringFromSelector(selector);
+    if (![_warningsSelectors containsObject:stringSelector])
+    {
+        [_warningsSelectors addObject:stringSelector];
+        NSLog(@"WARNING : %@ overrides %@::%@",[sender class],[self class],NSStringFromSelector(selector));
+    }
 #endif
 }
 
