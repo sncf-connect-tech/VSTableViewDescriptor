@@ -1,11 +1,11 @@
 Pod::Spec.new do |s|
   s.name             = "TableViewDescriptor"
-  s.version          = "1.0.1"
+  s.version          = "1.0.2"
   s.summary          = "Structure UItableview implementation in a data-oriented way instead of index-oriented."
   s.homepage         = "https://github.com/voyages-sncf-technologies/VSTableViewDescriptor"
   s.license          = 'MIT'
   s.author           = { "GWENN GUIHAL" => "gwenn.guihal@gmail.com" }
-  s.source           = { :git => "https://github.com/voyages-sncf-technologies/VSTableViewDescriptor.git", :tag => "1.0.1" }
+  s.source           = { :git => "https://github.com/voyages-sncf-technologies/VSTableViewDescriptor.git", :tag => "1.0.2" }
 
 
   s.platform     = :ios, '6.0'
