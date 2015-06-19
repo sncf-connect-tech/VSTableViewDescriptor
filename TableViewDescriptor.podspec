@@ -1,20 +1,11 @@
-#
-# Be sure to run `pod lib lint TableViewDescriptor.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "TableViewDescriptor"
-  s.version          = "1.0"
-  s.summary          = "Simplify Table view delegation via blocks."
-  s.homepage         = "http://gitlab.socrate.vsct.fr/dwm-mobile/TableDescriptorIOS"
+  s.version          = "1.0.1"
+  s.summary          = "Structure UItableview implementation in a data-oriented way instead of index-oriented."
+  s.homepage         = "https://github.com/voyages-sncf-technologies/VSTableViewDescriptor"
   s.license          = 'MIT'
-  s.author           = { "GWENN GUIHAL" => "gguihal@voyages-sncf.com" }
-  s.source           = { :git => "git@gitlab.socrate.vsct.fr:dwm-mobile/TableDescriptorIOS.git", :tag => "1.0" }
+  s.author           = { "GWENN GUIHAL" => "gwenn.guihal@gmail.com" }
+  s.source           = { :git => "https://github.com/voyages-sncf-technologies/VSTableViewDescriptor.git", :tag => "1.0.1" }
 
 
   s.platform     = :ios, '6.0'
