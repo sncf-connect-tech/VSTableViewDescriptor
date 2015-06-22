@@ -43,7 +43,7 @@ for (ModelElement* element in self.myModel)
 {
     VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
     {
-        return [VSCellViewTableViewCell heightWithSentence:sentenceVO.sentence];
+        return [VSCellViewTableViewCell height:element];
 
     } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
     {
