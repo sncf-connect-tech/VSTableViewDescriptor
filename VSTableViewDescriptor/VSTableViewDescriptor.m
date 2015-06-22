@@ -221,6 +221,34 @@
         cellDescriptor.selectBlock(tableView, indexPath);
 }
 
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.delegate && [self.delegate respondsToSelector:_cmd])
+    {
+        [self warningOverrides:self.delegate selector:_cmd];
+    }
+    
+    VSSectionDescriptor* sectionDescriptor = self.sectionDescriptors[indexPath.section];
+    VSCellDescriptor* cellDescriptor = sectionDescriptor.cellDescriptors[indexPath.row];
+    if (cellDescriptor.editableBlock)
+        return cellDescriptor.editableBlock(tableView, indexPath);
+    
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.delegate && [self.delegate respondsToSelector:_cmd])
+    {
+        [self warningOverrides:self.delegate selector:_cmd];
+    }
+    
+    VSSectionDescriptor* sectionDescriptor = self.sectionDescriptors[indexPath.section];
+    VSCellDescriptor* cellDescriptor = sectionDescriptor.cellDescriptors[indexPath.row];
+    if (cellDescriptor.commitEditingStyleBlock)
+        cellDescriptor.commitEditingStyleBlock(tableView, editingStyle, indexPath);
+}
+
 #pragma mark - Forwarding Messages
 
 // overrides from NSObject

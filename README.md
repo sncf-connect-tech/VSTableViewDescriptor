@@ -39,16 +39,18 @@ VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initEmpty]
 Browse your model and add cells in the tableView:
 ```objective-c
 __weak typeof(self) weakSelf = self; // important, use weak self in block
-for (ModelElelemnt* element in self.myModel)
+for (ModelElement* element in self.myModel)
 {
     VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView* tableView, NSIndexPath *indexPath)
     {
-        return [VSSentenceCellViewTableViewCell heightWithSentence:sentenceVO.sentence];
+        return [VSCellViewTableViewCell heightWithSentence:sentenceVO.sentence];
+
     } configure:^UITableViewCell *(UITableView* tableView, NSIndexPath *indexPath)
     {
-        VSSentenceCellViewTableViewCell* cell = (VSCellViewTableViewCell*)[weakSelf.tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
+        VSCellViewTableViewCell* cell = (VSCellViewTableViewCell*)[weakSelf.tableView dequeueReusableCellWithIdentifier:kCellIdentifier forIndexPath:indexPath];
         [cell configure:element];
         return cell;
+
     } select:^(UITableView* tableView, NSIndexPath *indexPath)
     {
         [weakSelf onTap:element];
@@ -61,27 +63,29 @@ Et voilà !
 
 ### More
 
-TableViewDescriptor doesn't implement all delegate and datasource methods of UITableView. You can use your controller as delegate at the same time using TableViewDescriptor for the missing methods.
+TableViewDescriptor doesn't implement all delegate and datasource methods of UITableView. You can use your controller as delegate at the same time using TableViewDescriptor for the missing methods or contribute to the project :).
 ```objective-c
 self.tableViewDescriptor.dataSource = self;
 self.tableViewDescriptor.delegate = self;
 ```
 
 Methods implemented by TableViewDescriptor:
-- ```(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView```
-- ```(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section```
-- ```(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section```
-- ```(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section```
-- ```(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section```
-- ```(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section```
-- ```(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section```
-
-
-- ```(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section```
-- ```(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath```
-- ```(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath```
-- ```(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath```
-- ```(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath```
+- Sections
+    - ```(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView```
+    - ```(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section```
+    - ```(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section```
+    - ```(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section```
+    - ```(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section```
+    - ```(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section```
+    - ```(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section```
+    - ```(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section```
+- Cells
+    - ```(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath```
+    - ```(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath```
+    - ```(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath```
+    - ```(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath```
+    - ```(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath```
+    - ```(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath```
 
 If you override in your controller a method you implemented via the TableViewDescriptor, a warning is fired in the console.
 ```objective-c

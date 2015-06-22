@@ -12,6 +12,8 @@ typedef CGFloat (^CellHeightBlock)(UITableView* tableView, NSIndexPath* indexPat
 typedef void (^CellWillDisplayBlock)(UITableView* tableView, UITableViewCell* cell, NSIndexPath* indexPath);
 typedef UITableViewCell* (^CellConfigureBlock)(UITableView* tableView, NSIndexPath* indexPath);
 typedef void (^CellSelectBlock)(UITableView* tableView, NSIndexPath* indexPath);
+typedef BOOL (^CellEditableBlock)(UITableView* tableView, NSIndexPath* indexPath);
+typedef void (^CellCommitEditingStyleBlock)(UITableView* tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath* indexPath);
 
 @interface VSCellDescriptor : NSObject
 
@@ -19,6 +21,8 @@ typedef void (^CellSelectBlock)(UITableView* tableView, NSIndexPath* indexPath);
 @property (nonatomic, copy) CellWillDisplayBlock willDisplayBlock;
 @property (nonatomic, copy) CellConfigureBlock configureBlock;
 @property (nonatomic, copy) CellSelectBlock selectBlock;
+@property (nonatomic, copy) CellEditableBlock editableBlock;
+@property (nonatomic, copy) CellCommitEditingStyleBlock commitEditingStyleBlock;
 
 -(id) initWithHeight:(CellHeightBlock)heightBlock configure:(CellConfigureBlock)configureBlock;
 -(id) initWithHeight:(CellHeightBlock)heightBlock configure:(CellConfigureBlock)configureBlock select:(CellSelectBlock)selectBlock;
@@ -28,5 +32,7 @@ typedef void (^CellSelectBlock)(UITableView* tableView, NSIndexPath* indexPath);
 - (void)setWillDisplayBlock:(CellWillDisplayBlock)willDisplayBlock;
 - (void)setConfigureBlock:(CellConfigureBlock)configureBlock;
 - (void)setSelectBlock:(CellSelectBlock)selectBlock;
+- (void)setEditableBlock:(CellEditableBlock)editableBlock;
+- (void)setCommitEditingStyleBlock:(CellCommitEditingStyleBlock)commitEditingStyleBlock;
 
 @end

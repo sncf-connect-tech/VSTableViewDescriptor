@@ -209,6 +209,66 @@
     XCTAssertTrue(cellDescriptor.willDisplayBlock != nil,@"cellDescriptor willDisplayBlock shouldn't be nil");
 }
 
+- (void)testAddOneCellDescriptorEditable
+{
+    VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initEmpty];
+    [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
+    
+    VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView *tableView, NSIndexPath *indexPath) {
+        return 40;
+    } configure:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath) {
+        return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellIdentifier"];
+    }];
+    
+    [cellDescriptor setEditableBlock:^BOOL(UITableView *tableView, NSIndexPath *indexPath) {
+        return YES;
+    }];
+    [sectionDescriptor addCellDescriptor:cellDescriptor];
+    
+    cellDescriptor = nil;
+    
+    XCTAssertTrue([sectionDescriptor.cellDescriptors count] > 0,@"sectionDescriptor.cellDescriptors should be greater than 0");
+    
+    cellDescriptor = sectionDescriptor.cellDescriptors[0];
+    
+    XCTAssertTrue(cellDescriptor.heightBlock(nil,0) == 40,@"cellDescriptor heightBlock should be 40");
+    XCTAssertTrue(cellDescriptor.configureBlock(nil,0) != nil,@"cellDescriptor configureBlock shouldn't be nil");
+    XCTAssertTrue(cellDescriptor.editableBlock(nil,0) == YES,@"cellDescriptor editableBlock should return YES");
+}
+
+- (void)testAddOneCellDescriptorEditableWithCommitEditingStyle
+{
+    VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initEmpty];
+    [self.tableViewDescriptor addSectionDescriptor:sectionDescriptor];
+    
+    VSCellDescriptor* cellDescriptor = [[VSCellDescriptor alloc] initWithHeight:^CGFloat(UITableView *tableView, NSIndexPath *indexPath) {
+        return 40;
+    } configure:^UITableViewCell *(UITableView *tableView, NSIndexPath *indexPath) {
+        return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellIdentifier"];
+    }];
+    
+    [cellDescriptor setEditableBlock:^BOOL(UITableView *tableView, NSIndexPath *indexPath) {
+        return YES;
+    }];
+    
+    [cellDescriptor setCommitEditingStyleBlock:^(UITableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath) {
+        NSLog(@"Hello");
+    }];
+    
+    [sectionDescriptor addCellDescriptor:cellDescriptor];
+    
+    cellDescriptor = nil;
+    
+    XCTAssertTrue([sectionDescriptor.cellDescriptors count] > 0,@"sectionDescriptor.cellDescriptors should be greater than 0");
+    
+    cellDescriptor = sectionDescriptor.cellDescriptors[0];
+    
+    XCTAssertTrue(cellDescriptor.heightBlock(nil,0) == 40,@"cellDescriptor heightBlock should be 40");
+    XCTAssertTrue(cellDescriptor.configureBlock(nil,0) != nil,@"cellDescriptor configureBlock shouldn't be nil");
+    XCTAssertTrue(cellDescriptor.editableBlock(nil,0) == YES,@"cellDescriptor editableBlock should return YES");
+    XCTAssertTrue(cellDescriptor.commitEditingStyleBlock != nil, @"cellDescriptor commitEditingStyleBlock shouldn't be nil");
+}
+
 - (void)testRemoveAllCellDescriptors
 {
     VSSectionDescriptor* sectionDescriptor = [[VSSectionDescriptor alloc] initEmpty];
