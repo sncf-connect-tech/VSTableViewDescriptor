@@ -88,4 +88,9 @@
     [self.cellDescriptors addObject:cellDescriptor];
 }
 
+-(void)addCellDescriptor:(VSCellDescriptor *)cellDescriptor atIndex:(int)index
+{
+    [self.cellDescriptors insertObject:cellDescriptor atIndex:index];
+}
+
 @end

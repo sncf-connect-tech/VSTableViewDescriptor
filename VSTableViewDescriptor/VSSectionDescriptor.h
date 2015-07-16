@@ -44,6 +44,7 @@ typedef NSString* (^SectionFooterTitleBlock)(UITableView* tableView, int section
 
 
 -(void)addCellDescriptor:(VSCellDescriptor*)cellDescriptor;
+-(void)addCellDescriptor:(VSCellDescriptor *)cellDescriptor atIndex:(int)index;
 
 // autocompletion tricks
 -(void)setHeightHeaderBlock:(SectionHeaderHeightBlock)heightHeaderBlock;
