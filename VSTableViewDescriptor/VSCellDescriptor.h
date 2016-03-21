@@ -26,6 +26,7 @@ typedef void (^CellCommitEditingStyleBlock)(UITableView* tableView, UITableViewC
 
 -(id) initWithHeight:(CellHeightBlock)heightBlock configure:(CellConfigureBlock)configureBlock;
 -(id) initWithHeight:(CellHeightBlock)heightBlock configure:(CellConfigureBlock)configureBlock select:(CellSelectBlock)selectBlock;
+-(id) initWithHeight:(CellHeightBlock)heightBlock configure:(CellConfigureBlock)configureBlock select:(CellSelectBlock)selectBlock willDisplay:(CellWillDisplayBlock)willDisplayBlock;
 
 // autocompletion tricks
 - (void)setHeightBlock:(CellHeightBlock)heightBlock;
