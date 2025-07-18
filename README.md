@@ -1,5 +1,5 @@
 <p align="center" >
-  <img src="https://raw.githubusercontent.com/voyages-sncf-technologies/VSTableViewDescriptor/master/assets/header.png" alt="TableViewDescriptor" title="TableViewDescriptor">
+  <img src="https://raw.githubusercontent.com/sncf-connect-tech/VSTableViewDescriptor/master/assets/header.png" alt="TableViewDescriptor" title="TableViewDescriptor">
 </p>
 
 TableViewDescriptor is a library in order to structure your UITableview implementation in a data-oriented way instead of index-oriented.
